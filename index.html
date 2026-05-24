@@ -44,7 +44,6 @@
             overflow-x: hidden;
         }
 
-        /* ---- CURSOR ---- */
         .cursor {
             position: fixed;
             top: 0;
@@ -72,7 +71,6 @@
             transition: transform 0.18s ease, width 0.2s, height 0.2s;
         }
 
-        /* ---- NAV ---- */
         nav {
             position: fixed;
             top: 0;
@@ -155,12 +153,10 @@
             transition: 0.3s;
         }
 
-        /* ---- SECTIONS ---- */
         section {
             min-height: 100vh;
         }
 
-        /* ---- HOME ---- */
         #home {
             position: relative;
             display: flex;
@@ -172,9 +168,7 @@
         .home-grid-bg {
             position: absolute;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(120, 100, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(120, 100, 255, 0.03) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(120, 100, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 100, 255, 0.03) 1px, transparent 1px);
             background-size: 80px 80px;
             mask-image: radial-gradient(ellipse 70% 60% at 60% 50%, black, transparent);
         }
@@ -353,7 +347,7 @@
         }
 
         .section-header {
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
         }
 
         .section-num {
@@ -378,206 +372,268 @@
             font-style: italic;
         }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
+        /* Carousel wrapper */
+        .projects-wrap {
+            position: relative;
         }
 
+        /* Horizontal scroll carousel */
+        .projects-carousel {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(450px, 500px);
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 0.25rem 0.25rem 1.2rem;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(120, 100, 255, 0.3) transparent;
+        }
+
+        .projects-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .projects-carousel::-webkit-scrollbar-thumb {
+            background: rgba(120, 100, 255, 0.3);
+            border-radius: 999px;
+        }
+
+        /* Carousel nav buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-glow);
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .carousel-btn:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 16px rgba(120, 100, 255, 0.4);
+        }
+
+        .carousel-btn.prev {
+            left: -20px;
+        }
+
+        .carousel-btn.next {
+            right: -20px;
+        }
+
+        /* Card */
         .project-card {
+            scroll-snap-align: start;
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2.5rem;
-            position: relative;
+            border-radius: 12px;
             overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
             cursor: pointer;
         }
 
         .project-card:hover {
-            border-color: var(--border-glow);
-            transform: translateY(-4px);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.18);
         }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            /* ← ubah ini */
-            gap: 1.5rem;
+        /* Image area */
+        .project-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--surface2), var(--bg));
+            flex-shrink: 0;
+            position: relative;
         }
 
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+
+            display: block;
+            transition: transform 0.5s ease, opacity 0.3s;
+            opacity: 0.9;
         }
 
-        .project-card:hover::before {
+        .project-card:hover .project-img img {
             opacity: 1;
         }
 
-        .project-tag {
+        /* Placeholder for in-progress */
+        .project-img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--surface2), var(--bg));
+        }
+
+        .progress-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px 16px;
+
+            border: 1px solid var(--border);
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+
             font-family: var(--mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent3);
-            margin-bottom: 1.2rem;
-            display: inline-block;
-            padding: 4px 10px;
-            border: 1px solid rgba(0, 229, 192, 0.25);
-            border-radius: 2px;
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            color: var(--text-muted);
+
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .progress-badge img {
+            width: 16px;
+            height: 16px;
+            display: block;
+            opacity: 0.9;
+        }
+
+        /* Card body */
+        .project-info {
+            padding: 1.2rem 1.5rem 1.5rem;
+            border-top: 1px solid var(--border);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tags row */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .p-tag {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            padding: 3px 8px;
+            border: 1px solid rgba(120, 100, 255, 0.25);
+            border-radius: 100px;
+            background: rgba(120, 100, 255, 0.06);
         }
 
         .project-title {
             font-family: var(--serif);
-            font-size: 1.6rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .project-desc {
-            font-size: 0.9rem;
+            font-size: 0.83rem;
             color: var(--text-muted);
             line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .project-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stack-tag {
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.08em;
-            color: var(--text-dim);
-            padding: 3px 8px;
-            background: var(--surface2);
-            border-radius: 2px;
+            flex: 1;
         }
 
         .project-link {
             font-family: var(--mono);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             letter-spacing: 0.1em;
             color: var(--accent);
             text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            margin-top: 1rem;
             transition: gap 0.2s;
         }
 
         .project-link:hover {
-            gap: 12px;
+            gap: 10px;
         }
 
-        .project-num {
-            position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            font-family: var(--mono);
-            font-size: 4rem;
-            font-weight: 500;
-            color: var(--surface2);
-            line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .project-card:hover .project-num {
-            color: rgba(120, 100, 255, 0.1);
-        }
-
-        .loading-icon img {
-            width: 20px !important;
-            height: 20px !important;
-            display: block;
-        }
-
-        .photo-slider {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .photo-slides {
+        /* ---- IMG SLIDER inside card ---- */
+        .img-slides {
             display: flex;
             height: 100%;
             transition: transform 0.4s ease;
-            width: 100%;
+            will-change: transform;
         }
 
-        .photo-slides img {
-            min-width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.85;
-            flex-shrink: 0;
+        .img-slides img {
             flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            display: block;
         }
 
-        .project-card:hover .photo-slides img {
-            opacity: 1;
-        }
-
-        .slide-btn {
+        .img-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(10, 10, 15, 0.7);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1rem;
-            line-height: 1;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(6px);
+            color: var(--text);
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            z-index: 3;
             transition: background 0.2s;
-            z-index: 2;
-            backdrop-filter: blur(4px);
         }
 
-        .slide-btn:hover {
+        .img-btn:hover {
             background: rgba(120, 100, 255, 0.5);
         }
 
-        .slide-btn.prev {
-            left: 8px;
+        .img-prev {
+            left: 7px;
         }
 
-        .slide-btn.next {
-            right: 8px;
+        .img-next {
+            right: 7px;
         }
 
-        .slide-dots {
+        .img-dots {
             position: absolute;
-            bottom: 8px;
+            bottom: 7px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 5px;
-            z-index: 2;
+            gap: 4px;
+            z-index: 3;
         }
 
-        .slide-dot {
+        .img-dot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
@@ -586,7 +642,7 @@
             transition: background 0.2s;
         }
 
-        .slide-dot.active {
+        .img-dot.active {
             background: var(--accent);
         }
 
@@ -604,13 +660,6 @@
 
         .skills-left .section-header {
             margin-bottom: 2.5rem;
-        }
-
-        .skills-intro {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 3rem;
         }
 
         .skill-category {
@@ -643,12 +692,6 @@
             font-size: 0.88rem;
             font-weight: 400;
             color: var(--text);
-        }
-
-        .skill-pct {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--text-dim);
         }
 
         .skill-bar {
@@ -704,73 +747,7 @@
             color: var(--text-muted);
         }
 
-        /* ---- PROJECT PHOTO ---- */
-        .project-photo {
-            width: 100%;
-            height: 180px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            position: relative;
-        }
-
-        .project-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-            opacity: 0.85;
-        }
-
-        .project-card:hover .project-photo img {
-            opacity: 1;
-        }
-
-        .project-photo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--surface2), var(--bg));
-        }
-
-        .project-photo-placeholder span {
-            font-size: 2rem;
-            display: block;
-        }
-
-        .project-photo-placeholder small {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-
-        .project-photo-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            padding: 3px 7px;
-            background: rgba(10, 10, 15, 0.75);
-            border-radius: 2px;
-            border: 1px solid var(--border);
-            backdrop-filter: blur(4px);
-        }
-
-        /* ---- PROJECT PHOTO ---- */
-
+        /* ---- CONTACT ---- */
         #contact {
             padding: 8rem 4rem;
             background: var(--surface);
@@ -865,27 +842,6 @@
             z-index: 1;
         }
 
-        .contact-tagline {
-            font-family: var(--serif);
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-tagline em {
-            color: var(--accent);
-            font-style: italic;
-        }
-
-        .contact-sub {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 3rem;
-        }
-
         .contact-socials {
             display: flex;
             flex-direction: column;
@@ -917,98 +873,6 @@
             font-size: 1rem;
         }
 
-        /* ---- CONTACT RIGHT: availability card ---- */
-        .contact-availability {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            padding: 2rem;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-availability::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
-        }
-
-        .avail-status {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: var(--mono);
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            color: var(--accent3);
-        }
-
-        .avail-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent3);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(0.85);
-            }
-        }
-
-        .avail-title {
-            font-family: var(--serif);
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-
-        .avail-desc {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .avail-items {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .avail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: var(--mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-        }
-
-        .avail-item::before {
-            content: '✓';
-            color: var(--accent3);
-            font-size: 0.7rem;
-        }
-
-        /* ---- FOOTER ---- */
         footer {
             padding: 2.5rem 4rem;
             border-top: 1px solid var(--border);
@@ -1038,7 +902,6 @@
             color: var(--text);
         }
 
-        /* ---- REVEAL ANIMATION ---- */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -1050,7 +913,12 @@
             transform: translateY(0);
         }
 
-        /* ---- RESPONSIVE ---- */
+        @media (max-width: 1024px) {
+            .projects-carousel {
+                grid-auto-columns: minmax(400px, 450px);
+            }
+        }
+
         @media (max-width: 900px) {
             nav {
                 padding: 1.2rem 1.5rem;
@@ -1090,13 +958,8 @@
                 padding: 5rem 1.5rem;
             }
 
-            .projects-grid {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .project-card:nth-child(n) {
-                grid-column: span 12;
+            .carousel-btn {
+                display: none;
             }
 
             #skills {
@@ -1128,16 +991,23 @@
                 text-align: center;
             }
         }
+
+        @media (max-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 
 <body>
-
-    <!-- Custom cursor -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
 
-    <!-- NAV -->
     <nav id="navbar">
         <a href="#home" class="nav-logo">JX<span>.</span></a>
         <ul class="nav-links" id="navLinks">
@@ -1151,12 +1021,10 @@
         </div>
     </nav>
 
-    <!-- HOME -->
     <section id="home">
         <div class="home-grid-bg"></div>
         <div class="orb1 home-orb"></div>
         <div class="orb2 home-orb"></div>
-
         <div class="home-content">
             <p class="home-eyebrow">— Data Science & AI Enthusiast</p>
             <h1 class="home-title">
@@ -1175,57 +1043,135 @@
         <p class="home-scroll-hint">Scroll to continue</p>
     </section>
 
-    <!-- PROJECTS -->
     <section id="projects">
         <div class="section-header reveal">
             <span class="section-num">// 01</span>
             <h2 class="section-title">Featured <em>Projects</em></h2>
         </div>
-        <div class="projects-grid">
-            <div class="project-card reveal">
-                <span class="project-num">01</span>
 
-                <div class="project-photo">
-                    <div class="photo-slider">
-                        <div class="photo-slides">
-                            <img src="bukti/FSP.png" alt="Bukti 1"
-                                onerror="this.closest('.photo-slider').style.display='none'; this.closest('.project-photo').querySelector('.project-photo-placeholder').style.display='flex'">
-                            <img src="bukti/FSP2.png" alt="Bukti 2">
-                            <img src="bukti/FSP3.png" alt="Bukti 3">
+        <div class="projects-wrap">
+            <button class="carousel-btn prev" aria-label="Prev">&#8249;</button>
+
+            <div class="projects-carousel" id="projectsCarousel">
+
+                <!-- PROJECT 01 -->
+                <div class="project-card reveal">
+                    <div class="project-img" data-slider>
+                        <div class="img-slides">
+                            <img src="bukti/FSP.png" alt="FSP 1">
+                            <img src="bukti/FSP2.png" alt="FSP 2">
+                            <img src="bukti/FSP3.png" alt="FSP 3">
                         </div>
-                        <button class="slide-btn prev">‹</button>
-                        <button class="slide-btn next">›</button>
-                        <div class="slide-dots"></div>
+                        <button class="img-btn img-prev">&#8249;</button>
+                        <button class="img-btn img-next">&#8250;</button>
+                        <div class="img-dots"></div>
                     </div>
-                    <div class="project-photo-placeholder" style="display:none">
-                        <span class="loading-icon">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Loading_spinner.svg">
-                        </span>
-                        <small>On Progress</small>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="p-tag">Web App</span>
+                            <span class="p-tag">HTML</span>
+                            <span class="p-tag">JS</span>
+                            <span class="p-tag">PHP</span>
+                            <span class="p-tag">MySQL</span>
+                        </div>
+                        <h3 class="project-title">Academic Discussion Forum</h3>
+                        <p class="project-desc">An online discussion platform for students and lecturers featuring group
+                            discussions, thread-based chats, and discussion status tracking.</p>
+                        <a href="https://github.com/JosephXela/website-thread-chat" class="project-link"
+                            target="_blank">View Project <span>&#8594;</span></a>
                     </div>
-                    <span class="project-photo-badge">Project Photo</span>
                 </div>
 
-                <span class="project-tag">Web App</span>
-                <h3 class="project-title">Academic Discussion Forum</h3>
-                <p class="project-desc">
-                    An online discussion platform for students and lecturers featuring group discussions,
-                    thread-based chats, discussion status tracking, and interactive communication
-                    to support academic activities.
-                </p>
-                <div class="project-stack">
-                    <span class="stack-tag">HTML</span>
-                    <span class="stack-tag">CSS</span>
-                    <span class="stack-tag">JS</span>
-                    <span class="stack-tag">PHP</span>
-                    <span class="stack-tag">MySQL</span>
+                <!-- PROJECT 02 -->
+                <div class="project-card reveal">
+                    <div class="project-img">
+
+                        <div class="project-img-placeholder">
+                            <div class="progress-badge">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Loading_spinner.svg"
+                                    alt="Loading">
+
+                                <span>IN PROGRESS</span>
+                            </div>
+                        </div>
+                        <span class="project-img-badge">Project Photo</span>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                        </div>
+                        <h3 class="project-title">Lorem Ipsum</h3>
+                        <p class="project-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Modi, natus minus reiciendis eum sapiente beatae distinctio nesciunt! 
+                            Labore ipsa ducimus repellat nostrum, eius fugiat, officia rem sequi, 
+                            reprehenderit eligendi distinctio?.</p>
+                        <a href="#" class="project-link">On Progress <span>&#8594;</span></a>
+                    </div>
                 </div>
-                <a href="#" class="project-link">View Project <span>→</span></a>
+                 <!-- PROJECT 03 -->
+                <div class="project-card reveal">
+                    <div class="project-img">
+
+                        <div class="project-img-placeholder">
+                            <div class="progress-badge">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Loading_spinner.svg"
+                                    alt="Loading">
+
+                                <span>IN PROGRESS</span>
+                            </div>
+                        </div>
+                        <span class="project-img-badge">Project Photo</span>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                        </div>
+                        <h3 class="project-title">Lorem Ipsum</h3>
+                        <p class="project-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Modi, natus minus reiciendis eum sapiente beatae distinctio nesciunt! 
+                            Labore ipsa ducimus repellat nostrum, eius fugiat, officia rem sequi, 
+                            reprehenderit eligendi distinctio?.</p>
+                        <a href="#" class="project-link">On Progress <span>&#8594;</span></a>
+                    </div>
+                </div>
+                 <!-- PROJECT 04 -->
+                <div class="project-card reveal">
+                    <div class="project-img">
+
+                        <div class="project-img-placeholder">
+                            <div class="progress-badge">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Loading_spinner.svg"
+                                    alt="Loading">
+
+                                <span>IN PROGRESS</span>
+                            </div>
+                        </div>
+                        <span class="project-img-badge">Project Photo</span>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                            <span class="p-tag">Tag</span>
+                        </div>
+                        <h3 class="project-title">Lorem Ipsum</h3>
+                        <p class="project-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Modi, natus minus reiciendis eum sapiente beatae distinctio nesciunt! 
+                            Labore ipsa ducimus repellat nostrum, eius fugiat, officia rem sequi, 
+                            reprehenderit eligendi distinctio?.</p>
+                        <a href="#" class="project-link">On Progress <span>&#8594;</span></a>
+                    </div>
+                </div>
             </div>
+
+            <button class="carousel-btn next" aria-label="Next">&#8250;</button>
         </div>
     </section>
 
-    <!-- SKILLS -->
     <section id="skills">
         <div class="skills-layout">
             <div class="skills-left">
@@ -1233,14 +1179,12 @@
                     <span class="section-num">// 02</span>
                     <h2 class="section-title">Abilities &amp; <em>Skills</em></h2>
                 </div>
-
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Frontend</p>
                     <div class="skill-item">
                         <div class="skill-header"><span class="skill-name">HTML / CSS / JS</span></div>
                     </div>
                 </div>
-
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Backend</p>
                     <div class="skill-item">
@@ -1250,7 +1194,6 @@
                         <div class="skill-header"><span class="skill-name">Google Colab / Python</span></div>
                     </div>
                 </div>
-
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Tools</p>
                     <div class="skill-item">
@@ -1258,79 +1201,38 @@
                     </div>
                 </div>
             </div>
-
             <div class="skills-right reveal">
                 <p class="skill-cat-title" style="margin-bottom:1.5rem; color: var(--accent2);">Tools</p>
                 <div class="tools-grid">
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">MySQL</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">GitHub</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Laravel</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/android.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Android Studio</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Visual Studio Code</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Visual Studio</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/colab-color.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Google Colab</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/microsoft-excel.svg"
-                                width="24">
-                        </span>
-                        <span class="tool-name">Microsoft Excel</span>
-                    </div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                                width="24"></span><span class="tool-name">MySQL</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg"
+                                width="24"></span><span class="tool-name">GitHub</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
+                                width="24"></span><span class="tool-name">Laravel</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/android.svg"
+                                width="24"></span><span class="tool-name">Android Studio</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+                                width="24"></span><span class="tool-name">Visual Studio Code</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg"
+                                width="24"></span><span class="tool-name">Visual Studio</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/colab-color.svg"
+                                width="24"></span><span class="tool-name">Google Colab</span></div>
+                    <div class="tool-item"><span class="tool-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/microsoft-excel.svg"
+                                width="24"></span><span class="tool-name">Microsoft Excel</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
         <div class="contact-layout">
             <div class="contact-left reveal">
@@ -1340,35 +1242,29 @@
                 </div>
                 <div class="contact-socials">
                     <a href="mailto:joseph.xela1234@gmail.com" class="social-link">
-                        <span class="social-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gmail.svg" width="20">
-                        </span>
+                        <span class="social-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gmail.svg"
+                                width="20"></span>
                         joseph.xela1234@gmail.com
                     </a>
-
                     <a href="https://www.linkedin.com/in/joseph-xela/" target="_blank" class="social-link">
-                        <span class="social-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-                                width="20">
-                        </span>
+                        <span class="social-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+                                width="20"></span>
                         linkedin.com/in/joseph-xela
                     </a>
-
                     <a href="https://github.com/JosephXela" target="_blank" class="social-link">
-                        <span class="social-icon">
-                            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg"
-                                width="20">
-                        </span>
+                        <span class="social-icon"><img
+                                src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg"
+                                width="20"></span>
                         github.com/JosephXela
                     </a>
-
                     <a href="#" class="social-link">
                         <span class="social-icon">📍</span>
                         Surabaya, Jawa Timur, Indonesia
                     </a>
                 </div>
             </div>
-
             <div class="contact-right reveal">
                 <div class="contact-quote">
                     <span class="quote-mark">"</span>
@@ -1379,7 +1275,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <p class="footer-copy">© 2026 Joseph Xela W. P.</p>
         <a href="#home" class="footer-back">↑ Back to top</a>
@@ -1390,7 +1285,6 @@
         const cursor = document.getElementById('cursor');
         const ring = document.getElementById('cursor-ring');
         let mx = 0, my = 0, rx = 0, ry = 0;
-
         document.addEventListener('mousemove', e => {
             mx = e.clientX; my = e.clientY;
             cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
@@ -1402,86 +1296,75 @@
             requestAnimationFrame(animRing);
         }
         animRing();
-
         document.querySelectorAll('a, button, .project-card, .tool-item').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform += ' scale(1.5)';
-                ring.style.width = '52px'; ring.style.height = '52px';
-            });
-            el.addEventListener('mouseleave', () => {
-                ring.style.width = '36px'; ring.style.height = '36px';
-            });
+            el.addEventListener('mouseenter', () => { ring.style.width = '52px'; ring.style.height = '52px'; });
+            el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; });
         });
 
         // Navbar scroll
         const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 60);
-        });
+        window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
 
         // Mobile menu
-        function toggleMenu() {
-            navbar.classList.toggle('open');
-        }
-        document.querySelectorAll('.nav-links a').forEach(a => {
-            a.addEventListener('click', () => navbar.classList.remove('open'));
-        });
+        function toggleMenu() { navbar.classList.toggle('open'); }
+        document.querySelectorAll('.nav-links a').forEach(a => { a.addEventListener('click', () => navbar.classList.remove('open')); });
 
         // Scroll reveal
         const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver(entries => {
             entries.forEach((entry, i) => {
                 if (entry.isIntersecting) {
-                    entry.target.style.transitionDelay = (i % 4) * 0.1 + 's';
+                    entry.target.style.transitionDelay = (i % 4) * 0.08 + 's';
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.1 });
         reveals.forEach(el => observer.observe(el));
 
         // Skill bars
         const barObs = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.querySelectorAll('.skill-fill').forEach(bar => {
-                        bar.style.width = bar.dataset.width + '%';
-                    });
+                    entry.target.querySelectorAll('.skill-fill').forEach(bar => { bar.style.width = bar.dataset.width + '%'; });
                     barObs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.3 });
         document.querySelectorAll('.skill-category').forEach(el => barObs.observe(el));
 
-
-        // Photo slider
-        document.querySelectorAll('.photo-slider').forEach(slider => {
-            const slides = slider.querySelector('.photo-slides');
+        // Image sliders inside cards
+        document.querySelectorAll('.project-img[data-slider]').forEach(container => {
+            const slides = container.querySelector('.img-slides');
             const imgs = slides.querySelectorAll('img');
-            const dotsContainer = slider.querySelector('.slide-dots');
-            let current = 0;
+            const dotsEl = container.querySelector('.img-dots');
+            let cur = 0;
 
-            // Buat dots
             imgs.forEach((_, i) => {
-                const dot = document.createElement('div');
-                dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-                dot.onclick = () => goTo(i);
-                dotsContainer.appendChild(dot);
+                const d = document.createElement('div');
+                d.className = 'img-dot' + (i === 0 ? ' active' : '');
+                d.onclick = () => goTo(i);
+                dotsEl.appendChild(d);
             });
 
-            function goTo(index) {
-                current = (index + imgs.length) % imgs.length;
-                slides.style.transform = `translateX(-${current * 100}%)`;
-                dotsContainer.querySelectorAll('.slide-dot').forEach((d, i) => {
-                    d.classList.toggle('active', i === current);
-                });
+            function goTo(n) {
+                cur = ((n % imgs.length) + imgs.length) % imgs.length;
+                slides.style.transform = `translateX(-${cur * 100}%)`;
+                dotsEl.querySelectorAll('.img-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
             }
 
-            slider.querySelector('.prev').onclick = (e) => { e.stopPropagation(); goTo(current - 1); };
-            slider.querySelector('.next').onclick = (e) => { e.stopPropagation(); goTo(current + 1); };
+            container.querySelector('.img-prev').onclick = e => { e.stopPropagation(); goTo(cur - 1); };
+            container.querySelector('.img-next').onclick = e => { e.stopPropagation(); goTo(cur + 1); };
         });
 
-        function slidePhoto(btn, dir) { } // dummy, sudah dihandle di atas
-
+        // Projects carousel
+        const carousel = document.getElementById('projectsCarousel');
+        const btnPrev = document.querySelector('.carousel-btn.prev');
+        const btnNext = document.querySelector('.carousel-btn.next');
+        if (carousel && btnPrev && btnNext) {
+            const scrollAmt = () => carousel.clientWidth * 0.85;
+            btnPrev.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmt(), behavior: 'smooth' }));
+            btnNext.addEventListener('click', () => carousel.scrollBy({ left: scrollAmt(), behavior: 'smooth' }));
+        }
     </script>
 </body>
 
