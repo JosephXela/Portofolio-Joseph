@@ -504,6 +504,10 @@
             color: var(--surface2);
             line-height: 1;
             transition: color 0.3s;
+            z-index: 0;
+            /* tambah ini */
+            pointer-events: none;
+            /* tambah ini */
         }
 
         .project-card:hover .project-num {
@@ -634,6 +638,9 @@
             border: 1px solid var(--border);
             background: var(--surface2);
             position: relative;
+            z-index: 1;
+            position: relative;
+            /* tambah ini */
         }
 
         .project-photo img {
@@ -1241,7 +1248,7 @@
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Tools</p>
                     <div class="skill-item">
-                        <div class="skill-header"><span class="skill-name">Android Studio / Kotlin  + Java</span><span
+                        <div class="skill-header"><span class="skill-name">Android Studio / Kotlin + Java</span><span
                                 class="skill-pct">85%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="85"></div>
