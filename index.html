@@ -400,20 +400,11 @@
             transform: translateY(-4px);
         }
 
-        .project-card:nth-child(1) {
-            grid-column: span 7;
-        }
-
-        .project-card:nth-child(2) {
-            grid-column: span 5;
-        }
-
-        .project-card:nth-child(3) {
-            grid-column: span 5;
-        }
-
-        .project-card:nth-child(4) {
-            grid-column: span 7;
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* ← ubah ini */
+            gap: 1.5rem;
         }
 
         .project-card::before {
@@ -496,7 +487,7 @@
 
         .project-num {
             position: absolute;
-            top: 2rem;
+            bottom: 2rem;
             right: 2rem;
             font-family: var(--mono);
             font-size: 4rem;
@@ -504,14 +495,99 @@
             color: var(--surface2);
             line-height: 1;
             transition: color 0.3s;
-            z-index: 0;
-            /* tambah ini */
-            pointer-events: none;
-            /* tambah ini */
         }
 
         .project-card:hover .project-num {
             color: rgba(120, 100, 255, 0.1);
+        }
+
+        .loading-icon img {
+            width: 20px !important;
+            height: 20px !important;
+            display: block;
+        }
+
+        .photo-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .photo-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s ease;
+            width: 100%;
+        }
+
+        .photo-slides img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            flex-shrink: 0;
+            flex: 0 0 100%;
+        }
+
+        .project-card:hover .photo-slides img {
+            opacity: 1;
+        }
+
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 2;
+            backdrop-filter: blur(4px);
+        }
+
+        .slide-btn:hover {
+            background: rgba(120, 100, 255, 0.5);
+        }
+
+        .slide-btn.prev {
+            left: 8px;
+        }
+
+        .slide-btn.next {
+            right: 8px;
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .slide-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .slide-dot.active {
+            background: var(--accent);
         }
 
         /* ---- SKILLS ---- */
@@ -638,9 +714,6 @@
             border: 1px solid var(--border);
             background: var(--surface2);
             position: relative;
-            z-index: 1;
-            position: relative;
-            /* tambah ini */
         }
 
         .project-photo img {
@@ -653,7 +726,6 @@
         }
 
         .project-card:hover .project-photo img {
-            transform: scale(1.04);
             opacity: 1;
         }
 
@@ -1109,100 +1181,46 @@
             <span class="section-num">// 01</span>
             <h2 class="section-title">Featured <em>Projects</em></h2>
         </div>
-
         <div class="projects-grid">
             <div class="project-card reveal">
                 <span class="project-num">01</span>
+
                 <div class="project-photo">
-                    <img src="images/project-1.jpg" alt="Screenshot Marketplace Dashboard"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="project-photo-placeholder" style="display:none">
-                        <span>🖥️</span>
-                        <small>Ganti dengan screenshot proyek</small>
+                    <div class="photo-slider">
+                        <div class="photo-slides">
+                            <img src="bukti/FSP.png" alt="Bukti 1"
+                                onerror="this.closest('.photo-slider').style.display='none'; this.closest('.project-photo').querySelector('.project-photo-placeholder').style.display='flex'">
+                            <img src="bukti/FSP2.png" alt="Bukti 2">
+                            <img src="bukti/FSP3.png" alt="Bukti 3">
+                        </div>
+                        <button class="slide-btn prev">‹</button>
+                        <button class="slide-btn next">›</button>
+                        <div class="slide-dots"></div>
                     </div>
-                    <span class="project-photo-badge">bukti proyek</span>
+                    <div class="project-photo-placeholder" style="display:none">
+                        <span class="loading-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Loading_spinner.svg">
+                        </span>
+                        <small>On Progress</small>
+                    </div>
+                    <span class="project-photo-badge">Project Photo</span>
                 </div>
+
                 <span class="project-tag">Web App</span>
-                <h3 class="project-title">Marketplace Dashboard</h3>
-                <p class="project-desc">Platform manajemen toko online dengan analitik real-time, manajemen inventaris,
-                    dan laporan penjualan yang komprehensif.</p>
+                <h3 class="project-title">Academic Discussion Forum</h3>
+                <p class="project-desc">
+                    An online discussion platform for students and lecturers featuring group discussions,
+                    thread-based chats, discussion status tracking, and interactive communication
+                    to support academic activities.
+                </p>
                 <div class="project-stack">
-                    <span class="stack-tag">React</span>
-                    <span class="stack-tag">Node.js</span>
-                    <span class="stack-tag">PostgreSQL</span>
-                    <span class="stack-tag">Tailwind</span>
+                    <span class="stack-tag">HTML</span>
+                    <span class="stack-tag">CSS</span>
+                    <span class="stack-tag">JS</span>
+                    <span class="stack-tag">PHP</span>
+                    <span class="stack-tag">MySQL</span>
                 </div>
-                <a href="#" class="project-link">Lihat Proyek <span>→</span></a>
-            </div>
-
-            <div class="project-card reveal">
-                <span class="project-num">02</span>
-                <div class="project-photo">
-                    <img src="images/project-2.jpg" alt="Screenshot Fintech Wallet"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="project-photo-placeholder" style="display:none">
-                        <span>📱</span>
-                        <small>Ganti dengan screenshot proyek</small>
-                    </div>
-                    <span class="project-photo-badge">bukti proyek</span>
-                </div>
-                <span class="project-tag">Mobile App</span>
-                <h3 class="project-title">Fintech Wallet</h3>
-                <p class="project-desc">Aplikasi dompet digital dengan fitur transfer, pembayaran tagihan, dan manajemen
-                    keuangan personal.</p>
-                <div class="project-stack">
-                    <span class="stack-tag">Flutter</span>
-                    <span class="stack-tag">Firebase</span>
-                    <span class="stack-tag">REST API</span>
-                </div>
-                <a href="#" class="project-link">Lihat Proyek <span>→</span></a>
-            </div>
-
-            <div class="project-card reveal">
-                <span class="project-num">03</span>
-                <div class="project-photo">
-                    <img src="images/project-3.jpg" alt="Screenshot Healthcare Portal"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="project-photo-placeholder" style="display:none">
-                        <span>🏥</span>
-                        <small>Ganti dengan screenshot proyek</small>
-                    </div>
-                    <span class="project-photo-badge">bukti proyek</span>
-                </div>
-                <span class="project-tag">UI/UX Design</span>
-                <h3 class="project-title">Healthcare Portal</h3>
-                <p class="project-desc">Desain sistem informasi kesehatan untuk klinik — antrian digital, rekam medis,
-                    dan jadwal dokter.</p>
-                <div class="project-stack">
-                    <span class="stack-tag">Figma</span>
-                    <span class="stack-tag">Vue.js</span>
-                    <span class="stack-tag">Laravel</span>
-                </div>
-                <a href="#" class="project-link">Lihat Proyek <span>→</span></a>
-            </div>
-
-            <div class="project-card reveal">
-                <span class="project-num">04</span>
-                <div class="project-photo">
-                    <img src="images/project-4.jpg" alt="Screenshot Smart Content Generator"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="project-photo-placeholder" style="display:none">
-                        <span>🤖</span>
-                        <small>Ganti dengan screenshot proyek</small>
-                    </div>
-                    <span class="project-photo-badge">bukti proyek</span>
-                </div>
-                <span class="project-tag">AI Integration</span>
-                <h3 class="project-title">Smart Content Generator</h3>
-                <p class="project-desc">Alat pembuatan konten berbasis AI untuk kebutuhan marketing digital, dilengkapi
-                    editor kolaboratif dan manajemen tim.</p>
-                <div class="project-stack">
-                    <span class="stack-tag">Next.js</span>
-                    <span class="stack-tag">OpenAI API</span>
-                    <span class="stack-tag">MongoDB</span>
-                    <span class="stack-tag">TypeScript</span>
-                </div>
-                <a href="#" class="project-link">Lihat Proyek <span>→</span></a>
+                <a href="#" class="project-link">View Project <span>→</span></a>
             </div>
         </div>
     </section>
@@ -1219,40 +1237,24 @@
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Frontend</p>
                     <div class="skill-item">
-                        <div class="skill-header"><span class="skill-name">HTML / CSS / JS</span><span
-                                class="skill-pct">85%</span></div>
-                        <div class="skill-bar">
-                            <div class="skill-fill" data-width="85"></div>
-                        </div>
+                        <div class="skill-header"><span class="skill-name">HTML / CSS / JS</span></div>
                     </div>
                 </div>
 
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Backend</p>
                     <div class="skill-item">
-                        <div class="skill-header"><span class="skill-name">Laravel / PHP</span><span
-                                class="skill-pct">75%</span></div>
-                        <div class="skill-bar">
-                            <div class="skill-fill" data-width="75"></div>
-                        </div>
+                        <div class="skill-header"><span class="skill-name">Laravel / PHP</span></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-header"><span class="skill-name">Google Colab / Python</span><span
-                                class="skill-pct">75%</span></div>
-                        <div class="skill-bar">
-                            <div class="skill-fill" data-width="75"></div>
-                        </div>
+                        <div class="skill-header"><span class="skill-name">Google Colab / Python</span></div>
                     </div>
                 </div>
 
                 <div class="skill-category reveal">
                     <p class="skill-cat-title">Tools</p>
                     <div class="skill-item">
-                        <div class="skill-header"><span class="skill-name">Android Studio / Kotlin + Java</span><span
-                                class="skill-pct">85%</span></div>
-                        <div class="skill-bar">
-                            <div class="skill-fill" data-width="85"></div>
-                        </div>
+                        <div class="skill-header"><span class="skill-name">Android Studio / Kotlin + Java</span></div>
                     </div>
                 </div>
             </div>
@@ -1290,13 +1292,6 @@
                                 width="24">
                         </span>
                         <span class="tool-name">Android Studio</span>
-                    </div>
-
-                    <div class="tool-item">
-                        <span class="tool-icon">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Minitab_Logo.svg" width="24">
-                        </span>
-                        <span class="tool-name">Minitab</span>
                     </div>
 
                     <div class="tool-item">
@@ -1457,6 +1452,35 @@
         }, { threshold: 0.3 });
         document.querySelectorAll('.skill-category').forEach(el => barObs.observe(el));
 
+
+        // Photo slider
+        document.querySelectorAll('.photo-slider').forEach(slider => {
+            const slides = slider.querySelector('.photo-slides');
+            const imgs = slides.querySelectorAll('img');
+            const dotsContainer = slider.querySelector('.slide-dots');
+            let current = 0;
+
+            // Buat dots
+            imgs.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goTo(i);
+                dotsContainer.appendChild(dot);
+            });
+
+            function goTo(index) {
+                current = (index + imgs.length) % imgs.length;
+                slides.style.transform = `translateX(-${current * 100}%)`;
+                dotsContainer.querySelectorAll('.slide-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+            }
+
+            slider.querySelector('.prev').onclick = (e) => { e.stopPropagation(); goTo(current - 1); };
+            slider.querySelector('.next').onclick = (e) => { e.stopPropagation(); goTo(current + 1); };
+        });
+
+        function slidePhoto(btn, dir) { } // dummy, sudah dihandle di atas
 
     </script>
 </body>
